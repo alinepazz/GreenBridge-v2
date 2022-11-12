@@ -30,4 +30,9 @@ public class ProjetoService {
     public Optional<ProjetoModel> findById(UUID id) {
         return projetoRepository.findById(id);
     }
+
+    @Transactional
+    public void delete(ProjetoModel projetoModel) {
+         projetoRepository.delete(projetoModel);
+    }
 }

@@ -48,4 +48,14 @@ public class ProjetoController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(projetoModelOptional.get());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object>deleteProject(@PathVariable(value = "id") UUID id){
+        Optional<ProjetoModel>projetoModelOptional = projetoService.findById(id);
+        if (!projetoModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project not found!");
+        }
+        projetoService.delete(projetoModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("Project deleted sucessfully!");
+    }
 }
