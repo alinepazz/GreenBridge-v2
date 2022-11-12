@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProjetoService {
@@ -23,5 +25,9 @@ public class ProjetoService {
 
     public Page<ProjetoModel> findAll(Pageable pageable) {
         return projetoRepository.findAll(pageable);
+    }
+
+    public Optional<ProjetoModel> findById(UUID id) {
+        return projetoRepository.findById(id);
     }
 }

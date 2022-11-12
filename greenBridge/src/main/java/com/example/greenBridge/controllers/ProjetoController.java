@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,7 +27,7 @@ public class ProjetoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveProjeto(@RequestBody @Valid ProjetoDto projetoDto) {
+    public ResponseEntity<Object> saveProject(@RequestBody @Valid ProjetoDto projetoDto) {
 
         var projetoModel =new ProjetoModel();
         BeanUtils.copyProperties(projetoDto, projetoModel);
@@ -33,10 +35,17 @@ public class ProjetoController {
         }
 
     @GetMapping
-    public ResponseEntity<Page<ProjetoModel>>getAllProjeto(
+    public ResponseEntity<Page<ProjetoModel>>getAllProject(
             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(projetoService.findAll(pageable));
     }
 
-    
+    @GetMapping("/{id}")
+    public ResponseEntity<Object>getOneProject(@PathVariable(value = "id")UUID id){
+        Optional<ProjetoModel>projetoModelOptional = projetoService.findById(id);
+        if (!projetoModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project not found!");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(projetoModelOptional.get());
+    }
 }
