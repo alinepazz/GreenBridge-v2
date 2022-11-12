@@ -58,4 +58,17 @@ public class ProjetoController {
         projetoService.delete(projetoModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Project deleted sucessfully!");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object>updateProject(@PathVariable(value = "id")UUID id,
+                                               @RequestBody @Valid ProjetoDto projetoDto) {
+        Optional<ProjetoModel> projetoModelOptional = projetoService.findById(id);
+        if (!projetoModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project not found!");
+        }
+        var projetoModel = new ProjetoModel();
+        BeanUtils.copyProperties(projetoDto, projetoModel);
+        projetoModel.setId(projetoModelOptional.get().getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(projetoService.save(projetoModel));
+    }
 }
