@@ -10,6 +10,7 @@ Recomendado: InteliJ e/ou Eclipse
 
 3. Inicie a aplicacao pela IDE de sua preferencia.
 
+4. Faca o post para o GET pela URL (Get Projects- http://localhost:8080/projects)
 
 
 ### 🛠 Tecnologias
